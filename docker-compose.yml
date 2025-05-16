@@ -1,0 +1,37 @@
+services:
+  shorty-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_DATABASE}"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+
+  shorty-api:
+    container_name: shorty-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8080
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules # Evita conflito com host
+    depends_on:
+      shorty-db:
+        condition: service_healthy
+    command: yarn start:dev
+
+volumes:
+  pgdata:
