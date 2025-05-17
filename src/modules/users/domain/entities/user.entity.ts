@@ -1,4 +1,11 @@
-import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  BeforeCreate,
+  BeforeUpdate,
+  Entity,
+  Enum,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { ArrayType } from '@mikro-orm/postgresql';
 import { AUTH_PROVIDER } from '../enums/auth-provider.enum';
 import { randomUUID } from 'crypto';
@@ -55,4 +62,18 @@ export class User {
     nullable: true,
   })
   deleted_at: Date;
+
+  @BeforeCreate()
+  beforeCreate() {
+    if (this.email) {
+      this.email = this.email.toLocaleLowerCase();
+    }
+  }
+
+  @BeforeUpdate()
+  beforeUpdate() {
+    if (this.email) {
+      this.email = this.email.toLocaleLowerCase();
+    }
+  }
 }
