@@ -13,6 +13,11 @@ export class UserPgRepository implements IUserRepository {
     return user;
   }
 
+  async findById(id: string): Promise<User | null> {
+    const user = this.entityManager.findOne(User, { id });
+    return user;
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const user = this.entityManager.findOne(User, { email });
     return user;
