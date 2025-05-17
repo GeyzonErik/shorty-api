@@ -2,12 +2,19 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class SignInRequest {
-  @ApiProperty({ name: 'email', type: 'string', example: 'example@mail.com' })
+  @ApiProperty({
+    example: 'Leonardo@mail.com',
+    description: 'The email address of the user. Must be a valid email format.',
+  })
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @ApiProperty({ name: 'password', type: 'string', example: 'Ab25@r' })
+  @ApiProperty({
+    example: 'P455w0rd1',
+    description:
+      'The password for the user account. Must include at least one uppercase letter, one lowercase letter, and a number.',
+  })
   @IsString()
   @IsNotEmpty()
   password: string;
