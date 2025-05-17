@@ -5,6 +5,8 @@ import { User } from '@/users/domain/entities/user.entity';
 import { Url } from '@/urls/domain/entities/url.entity';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fields.subscriber';
+import { AuthModule } from '@/auth/auth.module';
+import { UserModule } from '@/users/users.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fie
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
