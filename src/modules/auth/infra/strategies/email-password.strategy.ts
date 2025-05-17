@@ -22,8 +22,7 @@ export class EmailPasswordStrategy implements IAuthStrategy {
       throw new Error('Invalid provider for this strategy');
     }
 
-    const user = await this.userRepo.findByEmail(data.email);
-
+    const user = await this.userRepo.findByEmail(data.email.toLowerCase());
     if (!user || !user.password) {
       throw new InvalidCredentialsException();
     }

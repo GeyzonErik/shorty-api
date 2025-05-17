@@ -7,6 +7,7 @@ import { AuthController } from './api/controllers/auth.controller';
 import { UserModule } from '@/users/users.module';
 import { SignIn } from './application/usecases/sign-in.usecase';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SignUp } from './application/usecases/sigin-up.usecase';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     },
     // usecases
     SignIn,
+    SignUp,
   ],
   exports: [JwtTokenService],
   controllers: [AuthController],
