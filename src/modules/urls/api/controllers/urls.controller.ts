@@ -27,6 +27,8 @@ import { ListUserUrlsPresenter } from './presenters/list-user-urls.presenter';
 import { UpdateUrlRequest } from './requests/update-url.request';
 import { UpdateUrl } from '@/urls/application/usecases/update-url.usecase';
 import { UpdateUrlPresenter } from './presenters/update-url.presenter';
+import { DeactivateUrlPresenter } from './presenters/deactivate-url.presenter';
+import { DeactivateUrl } from '@/urls/application/usecases/deactivate-url.usecase';
 
 @ApiBearerAuth()
 @UseGuards(UserAuthGuard)
@@ -38,6 +40,8 @@ export class UrlController {
   private listUserUrlsUseCase: ListUserUrls;
   @Inject(UpdateUrl)
   private updateUrlUseCase: UpdateUrl;
+  @Inject(DeactivateUrl)
+  private deactivateUrlUseCase: DeactivateUrl;
 
   @ApiCreatedResponse({
     description: 'Shortened URL successfully created',
@@ -100,12 +104,31 @@ export class UrlController {
     @User() user: UserEntity,
     @Body() body: UpdateUrlRequest,
   ) {
-    const response = await this.updateUrlUseCase.executer({
+    const response = await this.updateUrlUseCase.execute({
       urlId: id,
       user,
       orginalUrl: body.orginalUrl,
     });
 
     return UpdateUrlPresenter.toHTTP(response);
+  }
+
+  @ApiOkResponse({
+    description: 'URL successfully updated',
+    schema: {
+      example: {
+        id: 'url-id-123',
+        message: 'Url successfully deactivated',
+      },
+    },
+  })
+  @Patch('deactivate/:id')
+  async deactivateUrl(@Param('id') id: string, @User() user: UserEntity) {
+    const response = await this.deactivateUrlUseCase.execute({
+      urlId: id,
+      user,
+    });
+
+    return DeactivateUrlPresenter.toHTTP(response);
   }
 }
