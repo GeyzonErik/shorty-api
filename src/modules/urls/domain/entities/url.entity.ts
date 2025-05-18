@@ -45,7 +45,6 @@ export class Url {
   @Property({
     name: 'updated_at',
     type: 'timestamp with time zone',
-    onUpdate: () => new Date(),
     nullable: true,
   })
   updatedAt?: Date = new Date();
