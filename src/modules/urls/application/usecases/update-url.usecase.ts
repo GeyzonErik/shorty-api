@@ -1,4 +1,3 @@
-import { IUserRepository } from '@/users/application/repositories/user.repository';
 import { User } from '@/users/domain/entities/user.entity';
 import {
   GoneException,
@@ -15,12 +14,10 @@ export type UpdateUrlInput = {
 };
 
 export class UpdateUrl {
-  @Inject(IUserRepository)
-  private readonly userRepo: IUserRepository;
   @Inject(IUrlRepository)
   private readonly urlRepo: IUrlRepository;
 
-  async executer(data: UpdateUrlInput) {
+  async execute(data: UpdateUrlInput) {
     const url = await this.urlRepo.findById(data.urlId);
 
     if (!url || !url.isActive) {
