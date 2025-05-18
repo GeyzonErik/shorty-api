@@ -1,8 +1,8 @@
 export class SignUpPresenter {
-  static toHTTP(accessToken: string) {
+  static toHTTP() {
     return {
-      accessToken,
-      message: 'User registered successfully',
+      message:
+        'User registered successfully. Please check your email for confirmation link.',
     };
   }
 }

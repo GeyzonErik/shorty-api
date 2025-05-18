@@ -9,6 +9,7 @@ import { AuthModule } from '@/auth/auth.module';
 import { UserModule } from '@/users/users.module';
 import { UrlModule } from '@/urls/url.module';
 import { CoreModule } from '@/core/core.module';
+import { NotificationModule } from '@/notifications/notification.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CoreModule } from '@/core/core.module';
     AuthModule,
     UserModule,
     UrlModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],
