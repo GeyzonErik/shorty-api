@@ -22,4 +22,10 @@ export class UserPgRepository implements IUserRepository {
     const user = this.entityManager.findOne(User, { email });
     return user;
   }
+
+  async updateUser(data: User): Promise<User> {
+    await this.entityManager.nativeUpdate(User, { id: data.id }, data);
+
+    return await this.entityManager.findOneOrFail(User, { id: data.id });
+  }
 }
