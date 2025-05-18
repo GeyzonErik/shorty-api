@@ -14,6 +14,7 @@ async function bootstrap() {
       'Documentação simples para API do Shorty, um encurtador de Urls',
     )
     .setVersion('1.0')
+    .addBearerAuth({ in: 'header', type: 'http' })
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

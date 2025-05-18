@@ -37,7 +37,7 @@ import { SignUp } from './application/usecases/sigin-up.usecase';
     SignIn,
     SignUp,
   ],
-  exports: [JwtTokenService],
+  exports: [JwtTokenService, JwtModule],
   controllers: [AuthController],
 })
 export class AuthModule {}
