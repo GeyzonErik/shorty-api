@@ -7,16 +7,17 @@ import {
 } from '@nestjs/common';
 import { IUrlRepository } from '../repositories/urls.repository';
 
-export type DeactivateUrlInput = {
+export type ToggleUrlStatusInput = {
   user: User;
   urlId: string;
+  active: boolean;
 };
 
-export class DeactivateUrl {
+export class ToggleUrlStatus {
   @Inject(IUrlRepository)
   private readonly urlRepo: IUrlRepository;
 
-  async execute(data: DeactivateUrlInput) {
+  async execute(data: ToggleUrlStatusInput) {
     const url = await this.urlRepo.findById(data.urlId);
 
     if (!url || !url.isActive) {
@@ -33,6 +34,8 @@ export class DeactivateUrl {
       throw new GoneException('Expired URl');
     }
 
-    return await this.urlRepo.deactivateUrl(url);
+    url.isActive = data.active;
+
+    return await this.urlRepo.updateUrl(url);
   }
 }

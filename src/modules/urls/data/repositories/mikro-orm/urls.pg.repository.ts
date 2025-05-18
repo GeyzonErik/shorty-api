@@ -71,18 +71,6 @@ export class UrlPgRepository implements IUrlRepository {
     return await this.entityManager.findOneOrFail(Url, { id: data.id });
   }
 
-  async deactivateUrl(data: Url): Promise<Url> {
-    await this.entityManager.nativeUpdate(
-      Url,
-      { id: data.id },
-      {
-        isActive: false,
-      },
-    );
-
-    return await this.entityManager.findOneOrFail(Url, { id: data.id });
-  }
-
   async delete(data: Url): Promise<void> {
     await this.entityManager.nativeUpdate(
       Url,
