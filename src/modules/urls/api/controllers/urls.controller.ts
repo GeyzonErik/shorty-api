@@ -8,6 +8,8 @@ import {
   Controller,
   Get,
   Inject,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -22,6 +24,9 @@ import {
 } from '@nestjs/swagger';
 import { ListUserUrls } from '@/urls/application/usecases/list-user-urls.usecase';
 import { ListUserUrlsPresenter } from './presenters/list-user-urls.presenter';
+import { UpdateUrlRequest } from './requests/update-url.request';
+import { UpdateUrl } from '@/urls/application/usecases/update-url.usecase';
+import { UpdateUrlPresenter } from './presenters/update-url.presenter';
 
 @ApiBearerAuth()
 @UseGuards(UserAuthGuard)
@@ -31,6 +36,8 @@ export class UrlController {
   private createUrlUseCase: CreateUrl;
   @Inject(ListUserUrls)
   private listUserUrlsUseCase: ListUserUrls;
+  @Inject(UpdateUrl)
+  private updateUrlUseCase: UpdateUrl;
 
   @ApiCreatedResponse({
     description: 'Shortened URL successfully created',
@@ -76,5 +83,29 @@ export class UrlController {
     const response = await this.listUserUrlsUseCase.execute({ user, active });
 
     return response.map(ListUserUrlsPresenter.toHTTP);
+  }
+
+  @ApiOkResponse({
+    description: 'URL successfully updated',
+    schema: {
+      example: {
+        id: 'url-id-123',
+        message: 'Url successfully updated',
+      },
+    },
+  })
+  @Patch(':id')
+  async updateUrl(
+    @Param('id') id: string,
+    @User() user: UserEntity,
+    @Body() body: UpdateUrlRequest,
+  ) {
+    const response = await this.updateUrlUseCase.executer({
+      urlId: id,
+      user,
+      orginalUrl: body.orginalUrl,
+    });
+
+    return UpdateUrlPresenter.toHTTP(response);
   }
 }

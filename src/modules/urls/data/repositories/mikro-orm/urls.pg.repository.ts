@@ -28,13 +28,21 @@ export class UrlPgRepository implements IUrlRepository {
     return url;
   }
 
+  async findById(id: string): Promise<Url | null> {
+    const url = await this.entityManager.findOne(Url, {
+      id,
+      isActive: true,
+      deletedAt: null,
+    });
+    return url;
+  }
+
   async incrementVisit(data: Url): Promise<void> {
     await this.entityManager.nativeUpdate(
       Url,
       { id: data.id },
       {
         visits: data.visits + 1,
-        updatedAt: new Date(),
       },
     );
   }
@@ -47,5 +55,19 @@ export class UrlPgRepository implements IUrlRepository {
         deletedAt: null,
       },
     });
+  }
+
+  async updateUrl(data: Url): Promise<Url> {
+    await this.entityManager.nativeUpdate(
+      Url,
+      { id: data.id },
+      {
+        ...data,
+        visits: 0,
+        updatedAt: new Date(),
+      },
+    );
+
+    return await this.entityManager.findOneOrFail(Url, { id: data.id });
   }
 }
