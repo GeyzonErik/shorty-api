@@ -9,7 +9,7 @@ import { RedirectUrlController } from './api/controllers/redirect-url.controller
 import { GetOrignalUrl } from './application/usecases/get-original-url.usecase';
 import { ListUserUrls } from './application/usecases/list-user-urls.usecase';
 import { UpdateUrl } from './application/usecases/update-url.usecase';
-import { ToggleUrlStatus } from './application/usecases/deactivate-url.usecase';
+import { ToggleUrlStatus } from './application/usecases/toggle-url-status.usecase';
 import { DeleteUrl } from './application/usecases/delete-url.usecase';
 
 @Module({
