@@ -20,7 +20,7 @@ export class ToggleUrlStatus {
   async execute(data: ToggleUrlStatusInput) {
     const url = await this.urlRepo.findById(data.urlId);
 
-    if (!url || !url.isActive) {
+    if (!url) {
       throw new NotFoundException('Url not found');
     }
 

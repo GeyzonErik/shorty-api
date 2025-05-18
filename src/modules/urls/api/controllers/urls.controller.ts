@@ -28,8 +28,8 @@ import { ListUserUrlsPresenter } from './presenters/list-user-urls.presenter';
 import { UpdateUrlRequest } from './requests/update-url.request';
 import { UpdateUrl } from '@/urls/application/usecases/update-url.usecase';
 import { UpdateUrlPresenter } from './presenters/update-url.presenter';
-import { DeactivateUrlPresenter } from './presenters/deactivate-url.presenter';
-import { ToggleUrlStatus } from '@/urls/application/usecases/deactivate-url.usecase';
+import { ToggleUrlStatusPresenter } from './presenters/toggle-url-status.presenter';
+import { ToggleUrlStatus } from '@/urls/application/usecases/toggle-url-status.usecase';
 import { DeleteUrlPresenter } from './presenters/delete-url.presenter';
 import { DeleteUrl } from '@/urls/application/usecases/delete-url.usecase';
 import { ToggleUrlStatusRequest } from './requests/toggle-url-status.request';
@@ -140,7 +140,7 @@ export class UrlController {
       active: body.active,
     });
 
-    return DeactivateUrlPresenter.toHTTP(response);
+    return ToggleUrlStatusPresenter.toHTTP(response);
   }
 
   @ApiOkResponse({
