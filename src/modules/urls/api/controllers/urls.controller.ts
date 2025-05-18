@@ -6,6 +6,7 @@ import { User as UserEntity } from '@/users/domain/entities/user.entity';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -27,8 +28,11 @@ import { ListUserUrlsPresenter } from './presenters/list-user-urls.presenter';
 import { UpdateUrlRequest } from './requests/update-url.request';
 import { UpdateUrl } from '@/urls/application/usecases/update-url.usecase';
 import { UpdateUrlPresenter } from './presenters/update-url.presenter';
-import { DeactivateUrlPresenter } from './presenters/deactivate-url.presenter';
-import { DeactivateUrl } from '@/urls/application/usecases/deactivate-url.usecase';
+import { ToggleUrlStatusPresenter } from './presenters/toggle-url-status.presenter';
+import { ToggleUrlStatus } from '@/urls/application/usecases/toggle-url-status.usecase';
+import { DeleteUrlPresenter } from './presenters/delete-url.presenter';
+import { DeleteUrl } from '@/urls/application/usecases/delete-url.usecase';
+import { ToggleUrlStatusRequest } from './requests/toggle-url-status.request';
 
 @ApiBearerAuth()
 @UseGuards(UserAuthGuard)
@@ -40,8 +44,10 @@ export class UrlController {
   private listUserUrlsUseCase: ListUserUrls;
   @Inject(UpdateUrl)
   private updateUrlUseCase: UpdateUrl;
-  @Inject(DeactivateUrl)
-  private deactivateUrlUseCase: DeactivateUrl;
+  @Inject(ToggleUrlStatus)
+  private toggleUrlStatusUseCase: ToggleUrlStatus;
+  @Inject(DeleteUrl)
+  private deleteUrlUseCase: DeleteUrl;
 
   @ApiCreatedResponse({
     description: 'Shortened URL successfully created',
@@ -114,21 +120,44 @@ export class UrlController {
   }
 
   @ApiOkResponse({
-    description: 'URL successfully updated',
+    description: 'URL successfully deactivated/activated',
     schema: {
       example: {
         id: 'url-id-123',
-        message: 'Url successfully deactivated',
+        message: 'Url successfully deactivated/activated',
       },
     },
   })
-  @Patch('deactivate/:id')
-  async deactivateUrl(@Param('id') id: string, @User() user: UserEntity) {
-    const response = await this.deactivateUrlUseCase.execute({
+  @Patch('toggle/:id')
+  async toggleUrlStatus(
+    @Param('id') id: string,
+    @User() user: UserEntity,
+    @Body() body: ToggleUrlStatusRequest,
+  ) {
+    const response = await this.toggleUrlStatusUseCase.execute({
+      urlId: id,
+      user,
+      active: body.active,
+    });
+
+    return ToggleUrlStatusPresenter.toHTTP(response);
+  }
+
+  @ApiOkResponse({
+    description: 'URL successfully deleted',
+    schema: {
+      example: {
+        message: 'Url successfully deleted',
+      },
+    },
+  })
+  @Delete(':id')
+  async deleteUrl(@Param('id') id: string, @User() user: UserEntity) {
+    await this.deleteUrlUseCase.execute({
       urlId: id,
       user,
     });
 
-    return DeactivateUrlPresenter.toHTTP(response);
+    return DeleteUrlPresenter.toHTTP();
   }
 }

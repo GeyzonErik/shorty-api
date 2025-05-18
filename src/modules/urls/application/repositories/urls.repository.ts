@@ -9,5 +9,5 @@ export abstract class IUrlRepository {
   abstract incrementVisit(data: Url): Promise<void>;
   abstract listUserUrls(data: { user: User; active?: boolean }): Promise<Url[]>;
   abstract updateUrl(data: Url): Promise<Url>;
-  abstract deactivateUrl(data: Url): Promise<Url>;
+  abstract delete(data: Url): Promise<void>;
 }
