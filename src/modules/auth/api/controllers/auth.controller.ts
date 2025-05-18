@@ -42,14 +42,14 @@ export class AuthController {
     description: 'User successfully registered',
     schema: {
       example: {
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-        message: 'User registered successfully',
+        message:
+          'User registered successfully. Please check your email for confirmation link.',
       },
     },
   })
   @Post('sign-up')
   async signUp(@Body() body: SignUpRequest) {
-    const response = await this.signUpUseCase.execute(body);
-    return SignUpPresenter.toHTTP(response);
+    await this.signUpUseCase.execute(body);
+    return SignUpPresenter.toHTTP();
   }
 }

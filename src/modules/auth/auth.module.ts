@@ -7,9 +7,12 @@ import { UserModule } from '@/users/users.module';
 import { SignIn } from './application/usecases/sign-in.usecase';
 import { SignUp } from './application/usecases/sigin-up.usecase';
 import { CoreModule } from '@/core/core.module';
+import { NotificationModule } from '@/notifications/notification.module';
+import { ConfirmEmailController } from './api/controllers/confirm-email.controller';
+import { ConfirmEmail } from './application/usecases/confirm-email.usecase';
 
 @Module({
-  imports: [UserModule, CoreModule],
+  imports: [UserModule, CoreModule, NotificationModule],
   providers: [
     JwtTokenService,
     EmailPasswordStrategy,
@@ -22,8 +25,9 @@ import { CoreModule } from '@/core/core.module';
     // usecases
     SignIn,
     SignUp,
+    ConfirmEmail,
   ],
   exports: [],
-  controllers: [AuthController],
+  controllers: [AuthController, ConfirmEmailController],
 })
 export class AuthModule {}
