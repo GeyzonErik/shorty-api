@@ -7,6 +7,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fields.subscriber';
 import { AuthModule } from '@/auth/auth.module';
 import { UserModule } from '@/users/users.module';
+import { UrlModule } from '@/urls/url.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserModule } from '@/users/users.module';
     }),
     AuthModule,
     UserModule,
+    UrlModule,
   ],
   controllers: [],
   providers: [],

@@ -50,16 +50,12 @@ export class UserAuthGuard implements CanActivate {
           } else if (err instanceof JsonWebTokenError) {
             throw new UnauthorizedException('Token inválido');
           }
-          throw new UnauthorizedException('Falha na autenticação');
+          throw new UnauthorizedException('Authentication failed');
         }
       }
     }
 
     if (!isPublic && !req.user) return true;
-
-    if (!token) {
-      throw new UnauthorizedException('Token ausente ou inválido');
-    }
 
     return true;
   }
