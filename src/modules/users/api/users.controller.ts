@@ -4,9 +4,10 @@ import { User } from '@/auth/api/decorators/user.decorator';
 import { User as UserEntity } from '../domain/entities/user.entity';
 import { UpdateUserRequest } from './requests/update-user.request';
 import { UpdateUserPresenter } from './presenters/update-user.presenter';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { UserAuthGuard } from '@/auth/api/guards/user-auth.guard';
 
+@ApiBearerAuth()
 @UseGuards(UserAuthGuard)
 @Controller('v1/users/me')
 export class UserController {
