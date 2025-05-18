@@ -19,7 +19,7 @@ export class DeleteUrl {
   async execute(data: DeleteUrlInput) {
     const url = await this.urlRepo.findById(data.urlId);
 
-    if (!url || !url.isActive) {
+    if (!url) {
       throw new NotFoundException('Url not found');
     }
 
