@@ -31,7 +31,6 @@ export class UrlPgRepository implements IUrlRepository {
   async findById(id: string): Promise<Url | null> {
     const url = await this.entityManager.findOne(Url, {
       id,
-      isActive: true,
       deletedAt: null,
     });
     return url;
