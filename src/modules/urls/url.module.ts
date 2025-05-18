@@ -7,6 +7,7 @@ import { AuthModule } from '@/auth/auth.module';
 import { UserModule } from '@/users/users.module';
 import { RedirectUrlController } from './api/controllers/redirect-url.controller';
 import { GetOrignalUrl } from './application/usecases/get-original-url.usecase';
+import { ListUserUrls } from './application/usecases/list-user-urls.usecase';
 
 @Module({
   imports: [AuthModule, UserModule],
@@ -18,6 +19,7 @@ import { GetOrignalUrl } from './application/usecases/get-original-url.usecase';
     },
     CreateUrl,
     GetOrignalUrl,
+    ListUserUrls,
   ],
   exports: [IUrlRepository],
 })

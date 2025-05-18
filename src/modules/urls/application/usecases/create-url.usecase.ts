@@ -23,8 +23,6 @@ export class CreateUrl {
       this.urlRepo.existsSlug.bind(this.urlRepo),
     );
 
-    console.log(url);
-
     const newUrl = await this.urlRepo.create(url);
 
     return {

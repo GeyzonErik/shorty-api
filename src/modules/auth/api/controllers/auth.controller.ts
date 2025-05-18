@@ -6,6 +6,7 @@ import { SignInPresenter } from './presenters/sign-in.presenter';
 import { SignUp } from '@/auth/application/usecases/sigin-up.usecase';
 import { SignUpRequest } from './requests/sign-up.request';
 import { SignUpPresenter } from './presenters/sign-up.presenter';
+import { ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -14,6 +15,19 @@ export class AuthController {
   @Inject(SignUp)
   private signUpUseCase: SignUp;
 
+  @ApiCreatedResponse({
+    description: 'User successfully logged in',
+    schema: {
+      example: {
+        message: 'User successfully logged in',
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        user: {
+          id: 'user-id-123',
+          name: 'John Doe',
+        },
+      },
+    },
+  })
   @Post('sign-in')
   async signIn(@Body() body: SignInRequest) {
     const response = await this.signInUseCase.execute({
@@ -24,6 +38,15 @@ export class AuthController {
     return SignInPresenter.toHTTP(response);
   }
 
+  @ApiCreatedResponse({
+    description: 'User successfully registered',
+    schema: {
+      example: {
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        message: 'User registered successfully',
+      },
+    },
+  })
   @Post('sign-up')
   async signUp(@Body() body: SignUpRequest) {
     const response = await this.signUpUseCase.execute(body);

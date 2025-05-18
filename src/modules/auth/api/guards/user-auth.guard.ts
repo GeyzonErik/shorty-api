@@ -31,31 +31,35 @@ export class UserAuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest<UserAuthenticatedRequest>();
     const token = this.extractTokenFromHeader(req);
 
-    if (token) {
-      try {
-        const payload =
-          await this.jwtService.verifyAsync<JwtUserPayload>(token);
-
-        const user = await this.userRepo.findById(payload.sub);
-
-        if (!user) {
-          throw new UnauthorizedException('Invalid user');
-        }
-
-        req.user = user;
-      } catch (err) {
-        if (!isPublic) {
-          if (err instanceof TokenExpiredError) {
-            throw new UnauthorizedException('Token expirado');
-          } else if (err instanceof JsonWebTokenError) {
-            throw new UnauthorizedException('Token inválido');
-          }
-          throw new UnauthorizedException('Authentication failed');
-        }
-      }
+    if (!token) {
+      if (isPublic) return true;
+      throw new UnauthorizedException('Token not provided');
     }
 
-    if (!isPublic && !req.user) return true;
+    try {
+      const payload = await this.jwtService.verifyAsync<JwtUserPayload>(token);
+
+      const user = await this.userRepo.findById(payload.sub);
+
+      if (!user) {
+        throw new UnauthorizedException('Invalid user');
+      }
+
+      req.user = user;
+    } catch (err) {
+      if (!isPublic) {
+        if (err instanceof TokenExpiredError) {
+          throw new UnauthorizedException('Expired token');
+        } else if (err instanceof JsonWebTokenError) {
+          throw new UnauthorizedException('Invalid token');
+        }
+        throw new UnauthorizedException('Authentication failed');
+      } else {
+        console.warn(
+          `[AuthGuard] Public route received invalid token: ${err?.message}`,
+        );
+      }
+    }
 
     return true;
   }
