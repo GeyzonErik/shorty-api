@@ -6,6 +6,7 @@ import { User as UserEntity } from '@/users/domain/entities/user.entity';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -29,6 +30,8 @@ import { UpdateUrl } from '@/urls/application/usecases/update-url.usecase';
 import { UpdateUrlPresenter } from './presenters/update-url.presenter';
 import { DeactivateUrlPresenter } from './presenters/deactivate-url.presenter';
 import { DeactivateUrl } from '@/urls/application/usecases/deactivate-url.usecase';
+import { DeleteUrlPresenter } from './presenters/delete-url.presenter';
+import { DeleteUrl } from '@/urls/application/usecases/delete-url.usecase';
 
 @ApiBearerAuth()
 @UseGuards(UserAuthGuard)
@@ -42,6 +45,8 @@ export class UrlController {
   private updateUrlUseCase: UpdateUrl;
   @Inject(DeactivateUrl)
   private deactivateUrlUseCase: DeactivateUrl;
+  @Inject(DeleteUrl)
+  private deleteUrlUseCase: DeactivateUrl;
 
   @ApiCreatedResponse({
     description: 'Shortened URL successfully created',
@@ -114,7 +119,7 @@ export class UrlController {
   }
 
   @ApiOkResponse({
-    description: 'URL successfully updated',
+    description: 'URL successfully deactivated',
     schema: {
       example: {
         id: 'url-id-123',
@@ -130,5 +135,23 @@ export class UrlController {
     });
 
     return DeactivateUrlPresenter.toHTTP(response);
+  }
+
+  @ApiOkResponse({
+    description: 'URL successfully deleted',
+    schema: {
+      example: {
+        message: 'Url successfully deleted',
+      },
+    },
+  })
+  @Delete(':id')
+  async deleteUrl(@Param('id') id: string, @User() user: UserEntity) {
+    await this.deleteUrlUseCase.execute({
+      urlId: id,
+      user,
+    });
+
+    return DeleteUrlPresenter.toHTTP();
   }
 }

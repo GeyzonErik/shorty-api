@@ -82,4 +82,15 @@ export class UrlPgRepository implements IUrlRepository {
 
     return await this.entityManager.findOneOrFail(Url, { id: data.id });
   }
+
+  async delete(data: Url): Promise<void> {
+    await this.entityManager.nativeUpdate(
+      Url,
+      { id: data.id },
+      {
+        isActive: false,
+        deletedAt: new Date(),
+      },
+    );
+  }
 }

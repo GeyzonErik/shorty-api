@@ -10,6 +10,7 @@ import { GetOrignalUrl } from './application/usecases/get-original-url.usecase';
 import { ListUserUrls } from './application/usecases/list-user-urls.usecase';
 import { UpdateUrl } from './application/usecases/update-url.usecase';
 import { DeactivateUrl } from './application/usecases/deactivate-url.usecase';
+import { DeleteUrl } from './application/usecases/delete-url.usecase';
 
 @Module({
   imports: [AuthModule, UserModule],
@@ -24,6 +25,7 @@ import { DeactivateUrl } from './application/usecases/deactivate-url.usecase';
     ListUserUrls,
     UpdateUrl,
     DeactivateUrl,
+    DeleteUrl,
   ],
   exports: [IUrlRepository],
 })
