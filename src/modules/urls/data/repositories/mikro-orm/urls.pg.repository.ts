@@ -19,4 +19,24 @@ export class UrlPgRepository implements IUrlRepository {
     const url = await this.entityManager.findOne(Url, { slug });
     return !!url;
   }
+
+  async findBySlug(slug: string): Promise<Url | null> {
+    const url = await this.entityManager.findOne(Url, {
+      slug,
+      isActive: true,
+      deletedAt: null,
+    });
+    return url;
+  }
+
+  async incrementVisit(data: Url): Promise<void> {
+    await this.entityManager.nativeUpdate(
+      Url,
+      { id: data.id },
+      {
+        visits: data.visits + 1,
+        updatedAt: new Date(),
+      },
+    );
+  }
 }
