@@ -63,6 +63,7 @@ export class UrlPgRepository implements IUrlRepository {
       { id: data.id },
       {
         ...data,
+        visits: 0,
         updatedAt: new Date(),
       },
     );
