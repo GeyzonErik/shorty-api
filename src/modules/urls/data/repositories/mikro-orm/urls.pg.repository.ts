@@ -1,5 +1,6 @@
 import { IUrlRepository } from '@/urls/application/repositories/urls.repository';
 import { Url } from '@/urls/domain/entities/url.entity';
+import { User } from '@/users/domain/entities/user.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject } from '@nestjs/common';
 
@@ -8,8 +9,6 @@ export class UrlPgRepository implements IUrlRepository {
   private readonly entityManager: EntityManager;
 
   async create(data: Url): Promise<Url> {
-    console.log(data);
-
     const url = this.entityManager.create(Url, data);
     await this.entityManager.persistAndFlush(url);
     return url;
@@ -38,5 +37,15 @@ export class UrlPgRepository implements IUrlRepository {
         updatedAt: new Date(),
       },
     );
+  }
+
+  async listUserUrls(data: { user: User; active?: boolean }): Promise<Url[]> {
+    return await this.entityManager.findAll(Url, {
+      where: {
+        user: data.user,
+        isActive: data.active,
+        deletedAt: null,
+      },
+    });
   }
 }
