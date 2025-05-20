@@ -9,6 +9,6 @@ RUN yarn install
 
 COPY . .
 
-EXPOSE ${APP_PORT}
+EXPOSE 3000
 
 CMD ["yarn", "start:dev"]
