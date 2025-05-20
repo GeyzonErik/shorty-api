@@ -8,7 +8,7 @@ export class CreateUrlPresenter {
 
     return {
       message: 'URL successfully created',
-      url: `${baseUrl}${data.slug}`,
+      url: `${baseUrl}/${data.slug}`,
     };
   }
 }
