@@ -26,6 +26,12 @@ import { NotificationModule } from '@/notifications/notification.module';
         host: configService.get('DB_HOST'),
         port: +configService.get('DB_PORT'),
         subscribers: [NormalizeFieldsSubscriber],
+        ssl: configService.get('NODE_ENV') === 'prod',
+        extra: {
+          ssl: {
+            rejectUnauthorized: configService.get('NODE_ENV') === 'prod',
+          },
+        },
       }),
       inject: [ConfigService],
     }),
