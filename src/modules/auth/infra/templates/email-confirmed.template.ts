@@ -59,7 +59,7 @@ export function emailConfirmedPageTemplate(): string {
         </div>
         <h1 class="title">Email confirmado com sucesso!</h1>
         <p class="message">Sua conta foi ativada. Agora você pode utilizar a API normalmente.</p>
-        <a class="link" href="http://localhost:${process.env.APP_PORT}/api/v1/docs">Ir para a documentação da API</a>
+        <a class="link" href="http://localhost:${process.env.PORT}/api/v1/docs">Ir para a documentação da API</a>
       </div>
     </body>
   </html>

@@ -17,7 +17,7 @@ export type SignUpInput = {
 @Injectable()
 export class SignUp {
   private baseUrl =
-    process.env.BASE_URL || `http://localhost:${process.env.APP_PORT}`;
+    process.env.BASE_URL || `http://localhost:${process.env.PORT}`;
 
   @Inject(IUserRepository)
   private readonly userRepo: IUserRepository;
