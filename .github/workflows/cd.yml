@@ -18,7 +18,7 @@ jobs:
             -H "Accept: application/json" \
             -H "Authorization: Bearer ${RENDER_API_KEY}" \
             -H "Content-Type: application/json" \
-            -d '{"clearCache": true, "branch": "main"}' \
+            -d "{\"clearCache\": true, \"branch\": \"main\"}" \
             -w "\n\nStatus: %{http_code}\n" \
             -o response.json
 
