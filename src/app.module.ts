@@ -28,7 +28,7 @@ import { NotificationModule } from '@/notifications/notification.module';
         subscribers: [NormalizeFieldsSubscriber],
         driverOptions: {
           connection: {
-            ssl: configService.get('NODE_ENV') === 'development',
+            ssl: configService.get('NODE_ENV') === 'production',
           },
         },
       }),

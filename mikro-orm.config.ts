@@ -18,7 +18,7 @@ export default defineConfig({
   port: Number(process.env.DB_PORT),
   driverOptions: {
     connection: {
-      ssl: process.env.NODE_ENV === 'development',
+      ssl: process.env.NODE_ENV === 'production',
     },
   },
 });
