@@ -55,11 +55,11 @@ export function emailConfirmedPageTemplate(): string {
     <body>
       <div class="container">
         <div class="logo">
-          <img src="https://via.placeholder.com/120x40?text=Shorty" alt="Logo" />
+          <img src="https://i.postimg.cc/rsbvMJt3/shorty.png" alt="Logo" />
         </div>
         <h1 class="title">Email confirmado com sucesso!</h1>
         <p class="message">Sua conta foi ativada. Agora você pode utilizar a API normalmente.</p>
-        <a class="link" href="http://localhost:${process.env.PORT}/api/v1/docs">Ir para a documentação da API</a>
+        <a class="link" href="${process.env.BASE_URL}/api/v1/docs">Ir para a documentação da API</a>
       </div>
     </body>
   </html>

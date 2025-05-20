@@ -4,33 +4,23 @@ on:
 
 jobs:
   deploy:
+    name: 'Deploy to Render'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '22.x'
-
-      - name: Install dependencies
-        run: yarn
-
-      - name: Build the project
-        run: npm run build
-
-      - name: Deploy to Render
+      -name: Trigger deploy via Render API
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         run: |
+          echo: 'Triggering deploy via Render API...'
           curl -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/deploys" \
-          -H "Accept: application/json" \
-          -H "Authorization: Bearer ${RENDER_API_KEY}" \
-          -H "Content-Type: application/json" \
-          -d "{\"branch\":\"main\",\"clearCache\":true}" \
-          -w "\n\nStatus: %{http_code}\n" \
-          -o response.json
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": true, "branch": "main"}' \
+            -w "\n\nStatus: %{http_code}\n" \
+            -o response.json
 
+          echo: 'API Response:'
           cat response.json
