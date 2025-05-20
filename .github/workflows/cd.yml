@@ -22,5 +22,5 @@ jobs:
             -w "\n\nStatus: %{http_code}\n" \
             -o response.json
 
-          echo: 'API Response:'
+          echo 'API Response:'
           cat response.json
