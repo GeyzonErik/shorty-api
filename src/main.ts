@@ -13,7 +13,7 @@ async function bootstrap() {
     .setDescription(
       'Documentação simples para API do Shorty, um encurtador de Urls',
     )
-    .setVersion('1.1.2')
+    .setVersion('1.2.0')
     .addBearerAuth({ in: 'header', type: 'http' })
     .build();
 
