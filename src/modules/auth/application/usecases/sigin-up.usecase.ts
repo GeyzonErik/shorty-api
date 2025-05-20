@@ -27,7 +27,9 @@ export class SignUp {
   private readonly mailerProvider: IMailerProvider;
 
   async execute(data: SignUpInput): Promise<void> {
-    const existisUser = await this.userRepo.findByEmail(data.email);
+    const existisUser = await this.userRepo.findByEmail(
+      data.email.toLowerCase(),
+    );
 
     if (existisUser) {
       throw new ConflictException('Email already in use');
